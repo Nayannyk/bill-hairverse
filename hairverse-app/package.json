@@ -1,0 +1,26 @@
+{
+  "name": "hairverse",
+  "version": "1.0.0",
+  "description": "Hairverse Salon Billing Software",
+  "author": "Hairverse Unisex Salon",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "exceljs": "^4.4.0"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.hairverse.salon",
+    "productName": "Hairverse",
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
