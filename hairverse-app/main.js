@@ -17,6 +17,10 @@ function createWindow() {
 
 app.whenReady().then(() => {
   backend = spawn("node", ["server.js"], { stdio: "ignore" });
+  backend.on("error", (err) => console.error("Backend spawn error:", err));
+  backend.on("exit", (code) => {
+    if (code !== 0) console.error("Backend exited with code", code);
+  });
   createWindow();
 });
 

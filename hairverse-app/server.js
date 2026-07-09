@@ -28,26 +28,31 @@ async function initExcel() {
     await wb.xlsx.writeFile(filePath);
   }
 }
-initExcel();
+initExcel().catch(err => console.error("Failed to init Excel:", err));
 
 app.post("/save", async (req, res) => {
-  const { invoice, name, phone, services, total } = req.body;
-  const wb = new ExcelJS.Workbook();
-  await wb.xlsx.readFile(filePath);
-  const ws = wb.getWorksheet("Bills");
+  try {
+    const { invoice, name, phone, services, total } = req.body;
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.readFile(filePath);
+    const ws = wb.getWorksheet("Bills");
 
-  ws.addRow({
-    invoice,
-    date: new Date().toLocaleString(),
-    name,
-    phone,
-    services,
-    total,
-    payment: "UPI"
-  });
+    ws.addRow({
+      invoice,
+      date: new Date().toLocaleString(),
+      name,
+      phone,
+      services,
+      total,
+      payment: "UPI"
+    });
 
-  await wb.xlsx.writeFile(filePath);
-  res.json({ success: true });
+    await wb.xlsx.writeFile(filePath);
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Save error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.listen(3000, () => console.log("Backend running on port 3000"));
